@@ -1,6 +1,6 @@
 include:
   - infra.yaml
-
+  - mysql.yaml
 services:
   web:
     build: app
