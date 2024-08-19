@@ -13,3 +13,6 @@ compose-up:
 
 compose-down:
 	docker compose down
+
+compose-watch:
+	docker compose watch

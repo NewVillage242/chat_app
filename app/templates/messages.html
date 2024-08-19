@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Message
+{% endblock %}
+
+{% block content %}
+<h1>Message Table</h1>
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+        {% for message in messages %}
+            <tr>
+                <td>{{ message.id }}</td>
+                <td>{{ message.author }}</td>
+                <td>{{ message.message }}</td>
+
+            </tr>
+        {% endfor %}
+    <tbody>
+
+    </tbody>
+</table>
+{% endblock%}

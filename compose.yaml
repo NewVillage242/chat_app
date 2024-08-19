@@ -3,7 +3,7 @@ include:
 
 services:
   web:
-    build: .
+    build: app
     ports:
       - "8000:5000"
     develop:

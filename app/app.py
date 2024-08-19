@@ -22,3 +22,12 @@ def hello():
     count = get_hit_count()
     greeting = 'Hello World, this is the {} times refreshed.'.format(count)
     return render_template('homepage.html', content=greeting) 
+
+@app.route('/messages')
+def hello_app():
+    messages=[
+        {'id': 1, 'author': 'twei', 'message': "abc"},
+        {'id': 2, 'author': 'anonymous1', 'message': 'hi'},
+        {'id': 3, 'author': 'anonymous2', 'message': 'hello, world'},
+    ]
+    return render_template('messages.html', messages=messages)
