@@ -37,11 +37,3 @@ services:
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: root
-
-volumes:
-  mysql:
-    driver: local
-
-networks:
-  mysqlnetwork:
-    driver: bridge
