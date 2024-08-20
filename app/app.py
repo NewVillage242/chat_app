@@ -1,10 +1,33 @@
 import time
 
 import redis
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import os
 
 app = Flask(__name__)
 cache = redis.Redis(host='redis', port=6379)
+
+# mySQL
+import mysql.connector
+db_config = {
+    'user': 'root',
+    'password': 'root',
+    'host': 'mysql',  # Service name from docker-compose
+    'database': 'local',
+}
+def get_db_connection():
+    connection = mysql.connector.connect(**db_config)
+    return connection
+    
+def get_data():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM ttable')  # Replace 'your_table_name' with your actual table name
+    rows = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    messages = [{"id":row['id'], "author": row['author'], "message":row['message']} for row in rows]
+    return messages
 
 def get_hit_count():
     retries = 5
@@ -25,9 +48,6 @@ def hello():
 
 @app.route('/messages')
 def hello_app():
-    messages=[
-        {'id': 1, 'author': 'twei', 'message': "abc"},
-        {'id': 2, 'author': 'anonymous1', 'message': 'hi'},
-        {'id': 3, 'author': 'anonymous2', 'message': 'hello, world'},
-    ]
+    
+    messages = get_data()
     return render_template('messages.html', messages=messages)
