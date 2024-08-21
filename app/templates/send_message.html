@@ -1,0 +1,13 @@
+{% extends 'messages.html' %}
+
+{% block title %}
+    Send Message
+{% endblock %}
+
+{% block header %}
+    <form action="/send_message">
+        <input type="hidden", name="author", value="{{author}}", name="author">
+        <input type="text" name="message">
+        <input type="submit" value="Send Message">
+    </form>
+{% endblock%}
