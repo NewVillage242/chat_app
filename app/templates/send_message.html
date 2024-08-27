@@ -4,10 +4,10 @@
     Send Message
 {% endblock %}
 
-{% block header %}
-    <form action="/messages/send_message">
+{% block message_bar %}
+    <form class="input-box" action="/messages/send_message">
         <input type="hidden", name="author", value="{{author}}", name="author">
-        <input type="text" name="message">
+        <input type="text" name="message" placeholder="Type your message..." autocomplete="off">
         <input type="submit" value="Send Message">
     </form>
 {% endblock%}

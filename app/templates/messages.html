@@ -6,27 +6,33 @@
 
 
 {% block content %}
-{% block header %}{% endblock%}
+<div class="chat-container">
+    <h1>Chatting Room</h1>
+    <div class="messages">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Author</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+                {% for message in messages %}
+                    <tr>
+                        <td>{{ message.id }}</td>
+                        <td>{{ message.author }}</td>
+                        <td>{{ message.message }}</td>
 
-<h1>Message Table</h1>
-<table class="table table-hover table-dark">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Author</th>
-            <th>Message</th>
-        </tr>
-    </thead>
-        {% for message in messages %}
-            <tr>
-                <td>{{ message.id }}</td>
-                <td>{{ message.author }}</td>
-                <td>{{ message.message }}</td>
+                    </tr>
+                {% endfor %}
+            <tbody>
 
-            </tr>
-        {% endfor %}
-    <tbody>
+            </tbody>
+        </table>
+    </div> 
+    <!-- send message bar or null -->
+    {% block message_bar %}{% endblock%}
+</div>
 
-    </tbody>
-</table>
+
 {% endblock%}
