@@ -1,10 +1,61 @@
 {% extends 'messages.html' %}
 
+
+
 {% block title %}
     Send Message
 {% endblock %}
 
 {% block message_bar %}
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            // Convert table to chat bubbles.
+            const uname =  window.location.pathname.split('/')[2]
+            document.querySelector("thead").style.display = 'none'
+            document.querySelector("table").classList.remove("table-dark")
+            const rows = document.querySelectorAll("tbody tr ")
+            rows.forEach(row => {
+                const authorCell = row.querySelector('.author')
+                if(authorCell && authorCell.textContent.trim() === uname){
+                    row.classList.add('user')
+                    row.querySelector('.message').classList.add('user_message')
+                }
+            })
+            let emptyTR = document.createElement("tr")
+            emptyTR.classList.add("emptyTR")
+            document.querySelector("tbody").appendChild(emptyTR)
+            scrollToBottom()
+        })
+        function scrollToBottom() {
+            const chatContainer = document.querySelector('.messages');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    </script>
+    <style>
+        .emptyTR{
+            height: 50px;
+            pointer-events: none;
+        }
+        .id, .author{
+            display: none;
+        }
+        .message {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        .user_message{
+            background-color: #0084ff;
+            color: white;
+        }
+        .user{
+            text-align: right;
+            margin-left: auto;
+        }
+    </style>
+
     <form class="input-box" action="/messages/send_message">
         <input type="hidden", name="author", value="{{author}}", name="author">
         <input type="text" name="message" placeholder="Type your message..." autocomplete="off">

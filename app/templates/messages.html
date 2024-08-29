@@ -17,16 +17,16 @@
                     <th>Message</th>
                 </tr>
             </thead>
+
+            <tbody>
                 {% for message in messages %}
                     <tr>
-                        <td>{{ message.id }}</td>
-                        <td>{{ message.author }}</td>
-                        <td>{{ message.message }}</td>
+                        <td class="id">{{ message.id }}</td>
+                        <td class="author">{{ message.author }}</td>
+                        <td class="message">{{ message.message }}</td>
 
                     </tr>
                 {% endfor %}
-            <tbody>
-
             </tbody>
         </table>
     </div> 
