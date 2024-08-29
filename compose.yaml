@@ -6,8 +6,8 @@ services:
     build: app
     ports:
       - "8000:5000"
-    depends_on:
-      - mysql
+    # depends_on:
+    #   - mysql
     networks:
       - mysqlnetwork
       - redisnetwork
@@ -17,9 +17,9 @@ services:
           path: ./app
           target: /code
 
-volumes:
-  mysql:
-    driver: local
+# volumes:
+#   mysql:
+#     driver: local
 networks:
   mysqlnetwork:
     driver: bridge

@@ -9,7 +9,8 @@ import mysql.connector
 db_config = {
     'user': 'root',
     'password': 'root',
-    'host': 'mysql',  # Service name from docker-compose
+    'host': '192.168.0.109',  # Service name from docker-compose
+    'port': '3307',
     'database': 'local',
 }
 def get_db_connection():
