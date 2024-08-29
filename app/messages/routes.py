@@ -43,9 +43,9 @@ def chat(name):
     messages = get_data()
     return render_template('send_message.html',author=name, messages=messages) 
 
-@mess_bp.route('/send_message')
+@mess_bp.route('/send_message', methods=['POST'])
 def send_message():
-    author = request.args.get('author')
-    message= request.args.get('message')
+    author = request.form['author']
+    message= request.form['message']
     insert_data(author, message)
     return redirect(f"/messages/{author}") 
