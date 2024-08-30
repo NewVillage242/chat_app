@@ -9,6 +9,7 @@
 {% block message_bar %}
     <script>
         document.addEventListener('DOMContentLoaded', ()=>{
+            update_send()
             // Convert table to chat bubbles.
             const uname =  window.location.pathname.split('/')[2]
             document.querySelector("thead").style.display = 'none'
@@ -29,6 +30,17 @@
         function scrollToBottom() {
             const chatContainer = document.querySelector('.messages');
             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        window.addEventListener('resize', ()=>{
+          // shorten 'send message' to 'send' while window's width is short.
+          update_send()
+        })
+        function update_send(){
+            if(window.innerWidth > 600){
+                document.querySelector(".btn_send").value = 'Send Message'
+            } else {
+                document.querySelector('.btn_send').value = 'Send'
+            }
         }
     </script>
     <style>
@@ -59,6 +71,6 @@
     <form class="input-box" action="/messages/send_message" method="POST">
         <input type="hidden", name="author", value="{{author}}", name="author">
         <input type="text" name="message" placeholder="Type your message..." autocomplete="off">
-        <input type="submit" value="Send Message">
+        <input type="submit" class="btn_send" value="Send">
     </form>
 {% endblock%}
