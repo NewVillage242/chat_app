@@ -56,7 +56,7 @@ def show_messages():
 @mess_bp.route('/<name>')
 def chat(name):
     messages = get_data()
-    return render_template('send_message.html',author=name, messages=messages) 
+    return render_template('chat_room.html',author=name, messages=messages) 
 
 @mess_bp.route('/send_message', methods=['POST'])
 def send_message():
