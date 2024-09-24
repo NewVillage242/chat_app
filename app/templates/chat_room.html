@@ -7,7 +7,58 @@
 {% endblock %}
 
 {% block message_bar %}
+    <script type="text/javascript" src="//cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script>
+        const url = 'http://' + document.domain + ":8000"
+        var socket = io.connect(url)
+        
+        socket.on('message', function(data) {
+            console.log('Received from server: ', data)
+            // insert new message to chatting room
+            const tbody = document.querySelector('tbody')
+            const newRow = document.createElement('tr')
+            const me = document.querySelector('#author').value 
+            if(data.author == me) {
+                newRow.classList.add('user')
+            }
+
+            const idCell = document.createElement('td')
+            idCell.classList.add('id')
+            idCell.textContent = 112
+            newRow.appendChild(idCell)
+
+            const authorCell = document.createElement('td')
+            authorCell.classList.add('author')
+            authorCell.textContent = data.author
+            newRow.appendChild(authorCell)
+
+            const messageCell = document.createElement('td')
+            if(data.author == me){
+                messageCell.classList.add('message', 'user_message')
+            } else {
+                messageCell.classList.add('message')
+            }
+            messageCell.textContent = data.message
+            newRow.appendChild(messageCell)
+
+            const lastRow = tbody.lastElementChild
+            if(lastRow){
+                tbody.insertBefore(newRow, lastRow)
+            } else {
+                tbody.appendChild(newRow)
+            }
+            scrollToBottom()
+        })        
+        
+        // socket.emit('greeting', 'hello')
+        // socket.on('response', function(message){
+        //     console.log('meesage from server ', message)
+        // })
+
+    </script>
+    <script>
+        
+        
         document.addEventListener('DOMContentLoaded', ()=>{
             update_send()
             // Convert table to chat bubbles.
@@ -26,6 +77,25 @@
             emptyTR.classList.add("emptyTR")
             document.querySelector("tbody").appendChild(emptyTR)
             scrollToBottom()
+
+            document.querySelector(".input-box").addEventListener('submit', (event) => {
+              event.preventDefault()
+              let form = document.querySelector('.input-box')
+              const formData = new FormData(form)
+              fetch('/messages/send_message', {
+                method: 'POST',
+                body: formData
+              })
+              let author = document.querySelector("#author").value
+              let message= document.querySelector("#message").value
+            //   console.log("socket = ", socket)
+              const messageData = {
+                "author": author,
+                "message":message,
+              }
+              socket.emit('text', messageData)
+              document.querySelector("#message").value=""
+            })
         })
         function scrollToBottom() {
             const chatContainer = document.querySelector('.messages');
@@ -42,6 +112,7 @@
                 document.querySelector('.btn_send').value = 'Send'
             }
         }
+    
     </script>
     <style>
         .emptyTR{
@@ -69,8 +140,8 @@
     </style>
 
     <form class="input-box" action="/messages/send_message" method="POST">
-        <input type="hidden", name="author", value="{{author}}", name="author">
-        <input type="text" name="message" placeholder="Type your message..." autocomplete="off">
+        <input type="hidden", id="author" name="author", value="{{author}}", name="author">
+        <input type="text" id="message" name="message" placeholder="Type your message..." autocomplete="off">
         <input type="submit" class="btn_send" value="Send">
     </form>
 {% endblock%}
