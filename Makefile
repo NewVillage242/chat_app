@@ -9,10 +9,10 @@ docker-ssh:
 	docker exec -it go-go /bin/sh
 
 compose-up:
-	docker compose up
+	docker compose up || docker-compose up
 
 compose-down:
-	docker compose down
+	docker compose down || docker-compose down
 
 compose-watch:
-	docker compose watch
+	docker compose watch || docker-compose watch
