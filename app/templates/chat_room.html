@@ -37,6 +37,7 @@
                 messageCell.classList.add('message')
             }
             messageCell.textContent = data.message
+            linkfy(messageCell)
             newRow.appendChild(messageCell)
 
             const lastRow = tbody.lastElementChild
@@ -47,14 +48,26 @@
             }
             scrollToBottom()
         })        
+
+        function linkfy(cell) {
+            const urlRegex = /(http:\/\/|https:\/\/)([a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=]+)/g;
+            
+            // Replace URLs with anchor tags
+            cell.innerHTML = cell.innerHTML.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank">${url}</a>`;
+                });
+            return cell 
+        }
         
 
     </script>
     <script>
         
-        
         document.addEventListener('DOMContentLoaded', ()=>{
             update_screen_view()
+            
+            make_url_clickable()
+
             // Convert table to chat bubbles.
             const uname =  window.location.pathname.split('/')[2]
             document.querySelector("thead").style.display = 'none'
@@ -106,6 +119,18 @@
                 document.querySelector('.btn_send').value = 'Send'
             }
         }
+        function make_url_clickable(){
+            const messageCells = document.querySelectorAll("td.message");
+            const urlRegex = /(http:\/\/|https:\/\/)([a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=]+)/g;
+            
+            messageCells.forEach(function(cell) {
+            // Replace URLs with anchor tags
+            cell.innerHTML = cell.innerHTML.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank">${url}</a>`;
+                });
+            });
+
+        }
     
     </script>
     <style>
@@ -125,6 +150,9 @@
         }
         .user_message{
             background-color: #0084ff;
+            color: white;
+        }
+        .user_message a {
             color: white;
         }
         .user{
