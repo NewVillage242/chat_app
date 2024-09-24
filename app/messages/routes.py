@@ -1,7 +1,8 @@
 from flask import Blueprint
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import redis
 import json
+
 
 # Prefix /messages
 mess_bp = Blueprint('messages', __name__)
@@ -63,4 +64,4 @@ def send_message():
     author = request.form['author']
     message= request.form['message']
     insert_data(author, message)
-    return redirect(f"/messages/{author}") 
+    return jsonify({"status": "200"})

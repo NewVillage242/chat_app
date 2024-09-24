@@ -3,3 +3,4 @@ redis
 PyMySQL
 Flask-SQLAlchemy
 mysql-connector-python
+flask_socketio
